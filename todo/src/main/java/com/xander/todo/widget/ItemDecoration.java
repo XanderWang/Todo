@@ -17,14 +17,13 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
     itemOffset = offset;
   }
 
-  @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-      RecyclerView.State state) {
-
-    int index = parent.findContainingViewHolder(view).getAdapterPosition();
+  @Override
+  public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    int index = parent.getChildAdapterPosition(view);
     if (index == 0) {
-      outRect.contains(0, 0, 0, 0);
+      outRect.set(0, 0, 0, 0);
     } else {
-      outRect.contains(0, itemOffset, 0, 0);
+      outRect.set(0, itemOffset, 0, 0);
     }
   }
 }

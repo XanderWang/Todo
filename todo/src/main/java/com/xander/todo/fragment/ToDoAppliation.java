@@ -1,4 +1,4 @@
-package com.xander.todo;
+package com.xander.todo.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;

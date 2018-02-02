@@ -1,4 +1,4 @@
-package com.xander.todo;
+package com.xander.todo.fragment;
 
 import com.xander.todo.data.DaoSession;
 import com.xander.todo.data.ToDoBean;

@@ -4,44 +4,40 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import com.xander.todo.data.ToDoBean;
-import com.xander.todo.mvp.IToDoView;
-import com.xander.todo.widget.ItemDecoration;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IToDoView {
+import com.xander.todo.fragment.BaseFragment;
+import com.xander.todo.fragment.TodoFragment;
 
-  private ToDoAdapter toDoAdapter;
-  private RecyclerView todoRV;
 
-  private ToDoPresenter todoPresenter;
+public class MainActivity extends AppCompatActivity {
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  private ViewPager viewPager;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initViews();
-    initPresenter();
-    //todoPresenter.loadToDoList();
   }
 
-  @Override public void initPresenter() {
-    todoPresenter = new ToDoPresenter();
-    todoPresenter.setIView(this);
-  }
 
   private void initViews() {
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     toolbar.inflateMenu(R.menu.main_menu);
     toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-      @Override public boolean onMenuItemClick(MenuItem item) {
+      @Override
+      public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
           case R.id.create:
             jumpToCreateTodo(-1L);
@@ -53,63 +49,54 @@ public class MainActivity extends AppCompatActivity implements IToDoView {
 
     FloatingActionButton fab = findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
+      @Override
+      public void onClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             .setAction("Action", null)
             .show();
       }
     });
 
-    todoRV = findViewById(R.id.todo_list);
-    toDoAdapter = new ToDoAdapter();
-    toDoAdapter.setItemClickListener(new ToDoAdapter.OnItemClickListener() {
-      @Override public void onItemClick(ToDoBean toDoBean) {
-        jumpToCreateTodo(toDoBean.get_id());
-      }
-    });
+    viewPager = findViewById(R.id.main_viewpager);
+    PagersAdapter adapter = new PagersAdapter(getSupportFragmentManager());
+    adapter.addFragment(new TodoFragment());
+    viewPager.setAdapter(adapter);
 
-    LinearLayoutManager linearLayoutManager =
-        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
-    todoRV.setLayoutManager(linearLayoutManager);
-    todoRV.addItemDecoration(new ItemDecoration(10));
-
-    todoRV.setAdapter(toDoAdapter);
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.main_menu, menu);
-    return true;
   }
 
   private void jumpToCreateTodo(Long id) {
     Intent createIntent = new Intent(this, CreateToDoActivity.class);
-    createIntent.putExtra("_id",id);
+    createIntent.putExtra("_id", id);
     startActivity(createIntent);
   }
 
-  @Override protected void onStart() {
-    super.onStart();
-    todoPresenter.loadToDoList();
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    return true;
   }
 
-  @Override public ToDoAppliation getToDoApplication() {
-    return (ToDoAppliation) getApplication();
+  private class PagersAdapter extends FragmentPagerAdapter {
+
+    private SparseArray<BaseFragment> fragments = new SparseArray<BaseFragment>();
+
+    public PagersAdapter(FragmentManager fm) {
+      super(fm);
+    }
+
+    public void addFragment(BaseFragment fragment) {
+      fragments.append(fragments.size(), fragment);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      return fragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+      return fragments.size();
+    }
   }
 
-  @Override public void showLoading() {
-
-  }
-
-  @Override public void dismissLoading() {
-
-  }
-
-  @Override public void showToDos(List<ToDoBean> toDoBeanList) {
-    toDoAdapter.setToDoBeans(toDoBeanList);
-  }
-
-  @Override public void showMoreToDos(List<ToDoBean> toDoBeanList) {
-
-  }
 }

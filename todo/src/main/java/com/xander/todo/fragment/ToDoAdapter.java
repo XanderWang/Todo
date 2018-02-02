@@ -1,4 +1,4 @@
-package com.xander.todo;
+package com.xander.todo.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.xander.todo.R;
 import com.xander.todo.data.ToDoBean;
 
 import java.util.ArrayList;
