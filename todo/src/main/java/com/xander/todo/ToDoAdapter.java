@@ -1,14 +1,14 @@
 package com.xander.todo;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.xander.todo.data.ToDoBean;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +17,8 @@ import java.util.List;
  */
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
+
+  private static final String TAG = "ToDoAdapter";
 
   private List<ToDoBean> toDoBeans = new ArrayList<>();
   private boolean isSelectedMode = false;
@@ -35,20 +37,21 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
     this.itemClickListener = itemClickListener;
   }
 
-  @Override public ToDoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override
+  public ToDoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View todoItem = inflater.inflate(R.layout.todo_item, parent, false);
-    //todoItem.setLayoutParams(new ViewGroup.LayoutParams(-1,-2));
     ToDoHolder toDoHolder = new ToDoHolder(todoItem);
     return toDoHolder;
   }
 
-  @Override public void onBindViewHolder(ToDoHolder holder, int position) {
+  @Override
+  public void onBindViewHolder(ToDoHolder holder, int position) {
     holder.updateUI(toDoBeans.get(position), isSelectedMode);
   }
 
-  @Override public int getItemCount() {
+  @Override
+  public int getItemCount() {
     return null != toDoBeans ? toDoBeans.size() : 0;
   }
 
@@ -56,6 +59,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
     private TextView title;
     private CheckBox checkBox;
     private ToDoBean toDoBean;
+
     public ToDoHolder(View itemView) {
       super(itemView);
       title = itemView.findViewById(R.id.todo_title);
@@ -64,9 +68,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
       checkBox.setOnClickListener(this);
     }
 
-    @Override public void onClick(View v) {
-      if( v == title ) {
-        if ( itemClickListener != null ) {
+    @Override
+    public void onClick(View v) {
+      if (v == title) {
+        if (itemClickListener != null) {
           itemClickListener.onItemClick(toDoBean);
         }
       }
