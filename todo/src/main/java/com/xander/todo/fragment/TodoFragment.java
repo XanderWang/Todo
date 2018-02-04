@@ -1,6 +1,5 @@
 package com.xander.todo.fragment;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.xander.todo.CreateToDoActivity;
 import com.xander.todo.R;
+import com.xander.todo.ToDoAppliation;
 import com.xander.todo.data.ToDoBean;
 import com.xander.todo.mvp.IToDoView;
 import com.xander.todo.widget.ItemDecoration;
@@ -32,24 +32,21 @@ public class TodoFragment extends BaseFragment implements IToDoView {
   private ConstraintLayout rootLayout;
   private RecyclerView todoRV;
 
-  @Override
-  public BaseFragment getInstans() {
+  @Override public BaseFragment getInstans() {
     return super.getInstans();
   }
 
-  @Override
-  public void onAttach(Context context) {
+  @Override public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
 
-  @Nullable
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  @Nullable @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
     rootLayout = (ConstraintLayout) inflater.inflate(R.layout.fragment_todo, container, false);
     initViews(rootLayout);
     initPresenter();
@@ -60,8 +57,7 @@ public class TodoFragment extends BaseFragment implements IToDoView {
     todoRV = rootView.findViewById(R.id.todo_list);
     toDoAdapter = new ToDoAdapter();
     toDoAdapter.setItemClickListener(new ToDoAdapter.OnItemClickListener() {
-      @Override
-      public void onItemClick(ToDoBean toDoBean) {
+      @Override public void onItemClick(ToDoBean toDoBean) {
         jumpToCreateTodo(toDoBean.get_id());
       }
     });
@@ -70,13 +66,13 @@ public class TodoFragment extends BaseFragment implements IToDoView {
         new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
 
     todoRV.setLayoutManager(linearLayoutManager);
-    todoRV.addItemDecoration(new ItemDecoration(10));
+    todoRV.addItemDecoration(
+        new ItemDecoration(getResources().getDimensionPixelSize(R.dimen.list_item_devider)));
 
     todoRV.setAdapter(toDoAdapter);
   }
 
-  @Override
-  public void initPresenter() {
+  @Override public void initPresenter() {
     todoPresenter = new ToDoPresenter();
     todoPresenter.setIView(this);
   }
@@ -87,35 +83,28 @@ public class TodoFragment extends BaseFragment implements IToDoView {
     startActivity(createIntent);
   }
 
-  @Override
-  public void onStart() {
+  @Override public void onStart() {
     super.onStart();
     todoPresenter.loadToDoList();
   }
 
-  @Override
-  public ToDoAppliation getToDoApplication() {
+  @Override public ToDoAppliation getToDoApplication() {
     return (ToDoAppliation) getActivity().getApplication();
   }
 
-  @Override
-  public void showLoading() {
+  @Override public void showLoading() {
 
   }
 
-  @Override
-  public void dismissLoading() {
+  @Override public void dismissLoading() {
 
   }
 
-  @Override
-  public void showToDos(List<ToDoBean> toDoBeanList) {
+  @Override public void showToDos(List<ToDoBean> toDoBeanList) {
     toDoAdapter.setToDoBeans(toDoBeanList);
   }
 
-  @Override
-  public void showMoreToDos(List<ToDoBean> toDoBeanList) {
+  @Override public void showMoreToDos(List<ToDoBean> toDoBeanList) {
 
   }
-
 }

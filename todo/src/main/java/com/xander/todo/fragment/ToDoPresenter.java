@@ -28,8 +28,7 @@ public class ToDoPresenter implements IToDoPresenter<IToDoView> {
   }
 
   @Override public void loadToDoList() {
-    List<ToDoBean> toDoBeanList = daoSession.getToDoBeanDao()
-        .queryBuilder().list();
+    List<ToDoBean> toDoBeanList = daoSession.getToDoBeanDao().queryBuilder().list();
     iToDoView.showToDos(toDoBeanList);
   }
 

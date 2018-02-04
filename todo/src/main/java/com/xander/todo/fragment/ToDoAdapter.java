@@ -38,21 +38,18 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
     this.itemClickListener = itemClickListener;
   }
 
-  @Override
-  public ToDoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public ToDoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View todoItem = inflater.inflate(R.layout.todo_item, parent, false);
     ToDoHolder toDoHolder = new ToDoHolder(todoItem);
     return toDoHolder;
   }
 
-  @Override
-  public void onBindViewHolder(ToDoHolder holder, int position) {
+  @Override public void onBindViewHolder(ToDoHolder holder, int position) {
     holder.updateUI(toDoBeans.get(position), isSelectedMode);
   }
 
-  @Override
-  public int getItemCount() {
+  @Override public int getItemCount() {
     return null != toDoBeans ? toDoBeans.size() : 0;
   }
 
@@ -69,8 +66,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
       checkBox.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
+    @Override public void onClick(View v) {
       if (v == title) {
         if (itemClickListener != null) {
           itemClickListener.onItemClick(toDoBean);
