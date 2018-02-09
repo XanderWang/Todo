@@ -1,6 +1,6 @@
 package com.xander.todo.mvp;
 
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.bean.ToDoBean;
 
 /**
  * 创建 TODO 的Presenter
@@ -13,5 +13,5 @@ public interface IToDoCreatePresenter<V extends IView> extends IPresenter<V> {
 
   void deletToDo( ToDoBean toDoBean );
 
-  void searchToDoByID(Long _id);
+  ToDoBean loadToDoBeanByID(Long _id);
 }

@@ -1,7 +1,7 @@
 package com.xander.todo;
 
 import com.xander.todo.data.DaoSession;
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.bean.ToDoBean;
 import com.xander.todo.data.ToDoBeanDao;
 import com.xander.todo.mvp.IToDoCreatePresenter;
 import com.xander.todo.mvp.IToDoCreateView;
@@ -17,17 +17,19 @@ public class CreateToDoPresenter implements IToDoCreatePresenter<IToDoCreateView
   private DaoSession daoSession;
 
   @Override public void deletToDo(ToDoBean toDoBean) {
-
+    daoSession.getToDoBeanDao().delete(toDoBean);
+    iToDoCreateView.hadSaveTodo();
   }
 
-  @Override public void searchToDoByID(Long _id) {
+  @Override public ToDoBean loadToDoBeanByID(Long _id) {
     List<ToDoBean> list = daoSession.getToDoBeanDao().queryBuilder()
         .where(ToDoBeanDao.Properties._id.eq(_id))
         .build()
         .list();
     if( null != list && list.size() == 1 ) {
-      iToDoCreateView.showToDo( list.get(0) );
+      return list.get(0);
     }
+    return null;
   }
 
   @Override public void setIView(IToDoCreateView view) {

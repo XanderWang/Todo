@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
+import com.xander.todo.data.DBHelper;
 import com.xander.todo.data.DaoMaster;
 import com.xander.todo.data.DaoSession;
 import org.greenrobot.greendao.database.Database;
@@ -25,7 +26,7 @@ public class ToDoAppliation extends Application {
   }
 
   private void init() {
-    DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(this,"todo");
+    DBHelper devOpenHelper = new DBHelper(this,"todo");
     Database db = devOpenHelper.getWritableDb();
     daosession = new DaoMaster(db).newSession();
   }

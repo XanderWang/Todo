@@ -8,7 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.Constants;
+import com.xander.todo.data.bean.ToDoBean;
 import com.xander.todo.mvp.IToDoCreateView;
 
 public class CreateToDoActivity extends AppCompatActivity implements IToDoCreateView {
@@ -21,28 +22,48 @@ public class CreateToDoActivity extends AppCompatActivity implements IToDoCreate
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_create_to_do);
-    initView();
     initPresenter();
     parseIntentData();
+    initView();
+    showToDo(toDoBean);
   }
 
   private void parseIntentData() {
     Long id = getIntent().getExtras().getLong("_id");
     if (id != -1L) {
-      createToDoPresenter.searchToDoByID(id);
+      toDoBean = createToDoPresenter.loadToDoBeanByID(id);
     }
   }
 
   private void initView() {
-    Toolbar toolbar = findViewById(R.id.toolbar);
+    final Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    toolbar.inflateMenu(R.menu.create_menu);
+    //toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+    //toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+    //  @Override public void onClick(View v) {
+    //    onBackPressed();
+    //  }
+    //});
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setTitle(null == toDoBean ? R.string.title_create : R.string.title_modify);
+    toolbar.inflateMenu(null == toDoBean ? R.menu.create_todo_menu : R.menu.modify_todo_menu);
     toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
           case R.id.save:
             saveTodoBean();
             break;
+          case R.id.mark_done:
+            if (toDoBean != null) {
+              toDoBean.setState(Constants.TODO_HAD_DONE);
+              saveTodoBean();
+            }
+            break;
+          case R.id.delete:
+            deleteToDoBean();
+            break;
+          default:
+            return false;
         }
         return true;
       }
@@ -52,8 +73,18 @@ public class CreateToDoActivity extends AppCompatActivity implements IToDoCreate
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.create_menu, menu);
+    getMenuInflater().inflate(null == toDoBean ? R.menu.create_todo_menu : R.menu.modify_todo_menu,
+        menu);
     return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        onBackPressed();
+        return true;
+    }
+    return false;
   }
 
   @Override public void initPresenter() {
@@ -70,7 +101,7 @@ public class CreateToDoActivity extends AppCompatActivity implements IToDoCreate
       toDoBean = new ToDoBean();
       toDoBean.setTitle(title.getText().toString());
       toDoBean.setContent(content.getText().toString());
-      toDoBean.setState(ToDoBean.TODO_WORKING);
+      toDoBean.setState(Constants.TODO_WORKING);
       createToDoPresenter.insertOrUpdateToDo(toDoBean);
     } else {
       toDoBean.setTitle(title.getText().toString());
@@ -79,12 +110,20 @@ public class CreateToDoActivity extends AppCompatActivity implements IToDoCreate
     }
   }
 
+  private void deleteToDoBean() {
+    if (toDoBean != null) {
+      createToDoPresenter.deletToDo(toDoBean);
+    }
+  }
+
   @Override public ToDoAppliation getToDoApplication() {
     return (ToDoAppliation) getApplication();
   }
 
   @Override public void showToDo(ToDoBean toDoBean) {
-    this.toDoBean = toDoBean;
+    if (toDoBean == null) {
+      return;
+    }
     title.setText(toDoBean.getTitle());
     content.setText(toDoBean.getContent());
   }

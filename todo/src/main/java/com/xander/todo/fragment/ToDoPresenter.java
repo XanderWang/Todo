@@ -1,7 +1,7 @@
 package com.xander.todo.fragment;
 
 import com.xander.todo.data.DaoSession;
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.bean.ToDoBean;
 import com.xander.todo.mvp.IToDoPresenter;
 import com.xander.todo.mvp.IToDoView;
 import java.util.List;

@@ -24,6 +24,11 @@ android {
 
 }
 
+greendao {
+    schemaVersion 1
+    daoPackage "com.xander.todo.data"
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.0.0'
@@ -34,5 +39,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:recyclerview-v7:27.0.0'
+
+
     implementation 'org.greenrobot:greendao:3.2.2' // add library
 }

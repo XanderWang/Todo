@@ -1,6 +1,6 @@
 package com.xander.todo.mvp;
 
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.bean.ToDoBean;
 import java.util.List;
 
 /**

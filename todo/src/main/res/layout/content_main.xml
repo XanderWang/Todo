@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.view.ViewPager
+  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main_viewpager"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  app:layout_behavior="@string/appbar_scrolling_view_behavior"
+  android:background="#e2e2e2"
   tools:context="com.xander.todo.MainActivity"
-  tools:showIn="@layout/activity_main">
-
-  <android.support.v4.view.ViewPager
-    android:id="@+id/main_viewpager"
-    android:background="#e2e2e2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-
-</android.support.constraint.ConstraintLayout>
+  tools:showIn="@layout/activity_main"
+  />

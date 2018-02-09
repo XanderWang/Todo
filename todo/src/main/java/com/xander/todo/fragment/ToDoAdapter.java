@@ -8,7 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.xander.todo.R;
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.bean.ToDoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,5 +83,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
 
   public interface OnItemClickListener {
     void onItemClick(ToDoBean toDoBean);
+
+    void onCheckBoxClick(ToDoBean toDoBean);
   }
 }

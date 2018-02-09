@@ -1,5 +1,6 @@
-package com.xander.todo.data;
+package com.xander.todo.data.bean;
 
+import com.xander.todo.data.Constants;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -11,23 +12,23 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "todo_list") public class ToDoBean {
 
-  public static final int TODO_DONE = 0;
-  public static final int TODO_WORKING = 1;
-
   @Id(autoincrement = true) private Long _id;
   @NotNull private String title = "";
   private String content = "";
-  private int state = TODO_WORKING;
+  private String createTime = "";
+  private int state = Constants.TODO_WORKING;
 
   public ToDoBean() {
   }
 
-  @Generated(hash = 1923304712)
-  public ToDoBean(Long _id, @NotNull String title, String content, int state) {
-    this._id = _id;
-    this.title = title;
-    this.content = content;
-    this.state = state;
+  @Generated(hash = 1475638118)
+  public ToDoBean(Long _id, @NotNull String title, String content,
+          String createTime, int state) {
+      this._id = _id;
+      this.title = title;
+      this.content = content;
+      this.createTime = createTime;
+      this.state = state;
   }
 
   public Long get_id() {
@@ -51,7 +52,7 @@ import org.greenrobot.greendao.annotation.Generated;
   }
 
   public boolean hasDone() {
-    return state == TODO_DONE;
+    return state == Constants.TODO_HAD_DONE;
   }
 
   public int getState() {
@@ -64,5 +65,13 @@ import org.greenrobot.greendao.annotation.Generated;
 
   public void set_id(Long _id) {
     this._id = _id;
+  }
+
+  public String getCreateTime() {
+      return this.createTime;
+  }
+
+  public void setCreateTime(String createTime) {
+      this.createTime = createTime;
   }
 }

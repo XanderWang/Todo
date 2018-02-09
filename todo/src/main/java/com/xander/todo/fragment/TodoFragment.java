@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.xander.todo.CreateToDoActivity;
 import com.xander.todo.R;
 import com.xander.todo.ToDoAppliation;
-import com.xander.todo.data.ToDoBean;
+import com.xander.todo.data.bean.ToDoBean;
 import com.xander.todo.mvp.IToDoView;
 import com.xander.todo.widget.ItemDecoration;
 
@@ -59,6 +59,10 @@ public class TodoFragment extends BaseFragment implements IToDoView {
     toDoAdapter.setItemClickListener(new ToDoAdapter.OnItemClickListener() {
       @Override public void onItemClick(ToDoBean toDoBean) {
         jumpToCreateTodo(toDoBean.get_id());
+      }
+
+      @Override public void onCheckBoxClick(ToDoBean toDoBean) {
+
       }
     });
 
